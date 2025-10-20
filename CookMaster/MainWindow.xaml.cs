@@ -20,5 +20,15 @@ namespace CookMaster
         {
             InitializeComponent();
         }
+
+        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
