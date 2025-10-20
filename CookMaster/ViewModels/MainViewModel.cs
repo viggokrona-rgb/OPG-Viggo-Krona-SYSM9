@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using CookMaster.Managers;
 
 namespace CookMaster.ViewModels
 {
@@ -12,14 +13,35 @@ namespace CookMaster.ViewModels
             set => SetProperty(ref _username, value);
         }
 
+        public UserManager UserManager { get; }
+
         public MainViewModel()
         {
+
+            UserManager = (UserManager)Application.Current.Resources["UserManager"];
+
         }
 
         public void SignIn(string password)
         {
-            string user = Username;
+           
             string pass = password ?? string.Empty;
+
+            bool success = UserManager.Login(Username, pass);
+
+            if (success)
+            {
+                MessageBox.Show($"Signed in as {UserManager.CurrentUsername}", "Sign In");
+            }
+            else
+            {
+                MessageBox.Show("Sign in failed", "Sign In");
+            }
+        }
+
+        public void SignOut()
+        {
+            UserManager.Logout();
         }
     }
 }

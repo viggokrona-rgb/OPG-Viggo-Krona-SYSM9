@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using CookMaster.ViewModels;
+using CookMaster.Managers;
 
 namespace CookMaster
 {
@@ -15,18 +16,19 @@ namespace CookMaster
         public MainWindow()
         {
             InitializeComponent();
+
             _vm = new MainViewModel();
             DataContext = _vm;
         }
 
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.SignIn(PasswordBox.Password);
+            _vm.SignIn(UsernameTextBox.Text == string.Empty ? null : PasswordBox.Password);
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-           
+            
         }
     }
 }
