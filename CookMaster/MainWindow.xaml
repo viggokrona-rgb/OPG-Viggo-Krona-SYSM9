@@ -20,18 +20,18 @@
 
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="100,0,100,0">
             <TextBlock Text="Användarnamn" Margin="4"/>
-            <TextBox x:Name="UsernameTextBox" Height="30"/>
+            <TextBox x:Name="UsernameTextBox" Height="30" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
 
         </StackPanel>
        
         <StackPanel Grid.Row="3" Orientation="Vertical" Margin="100,10,100,0">
             <TextBlock Text="Lösenord" Margin="4"/>
-            <PasswordBox x:Name="PasswordBox" Height="30"/>
+            <PasswordBox x:Name="PasswordBox" Height="30" />
         </StackPanel>
 
         <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
-            <Button Name="SignInButton" Width="120" Height="36" Margin="6" >Logga In</Button>
-            <Button Name="RegisterButton" Width="120" Height="36" Margin="6" >Registrera</Button>
+            <Button Name="SignInButton" Width="120" Height="36" Margin="6" Click="SignInButton_Click">Logga In</Button>
+            <Button Name="RegisterButton" Width="120" Height="36" Margin="6" Click="RegisterButton_Click">Registrera</Button>
         </StackPanel>
 
     </Grid>

@@ -10,17 +10,23 @@ namespace CookMaster
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+        private readonly MainViewModel _vm;
 
         public MainWindow()
         {
             InitializeComponent();
-     
-
-           
-            PasswordBox.PasswordChanged += (s, e) => {  };
+            _vm = new MainViewModel();
+            DataContext = _vm;
         }
 
-       
+        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.SignIn(PasswordBox.Password);
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
     }
 }
