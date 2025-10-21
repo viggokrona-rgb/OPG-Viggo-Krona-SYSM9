@@ -31,7 +31,7 @@ namespace CookMaster.ViewModels
 
             if (success)
             {
-                MessageBox.Show($"Signed in as {UserManager.CurrentUsername}", "Sign In");
+                MessageBox.Show($"Signed in as {UserManager.CurrentUser.Username}", "Sign In");
             }
             else
             {

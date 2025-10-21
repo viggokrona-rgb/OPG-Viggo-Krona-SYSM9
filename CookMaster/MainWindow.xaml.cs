@@ -23,7 +23,7 @@ namespace CookMaster
 
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.SignIn(UsernameTextBox.Text == string.Empty ? null : PasswordBox.Password);
+            _vm.SignIn(UsernameTextBox.Text == string.Empty? null: PasswordBox.Password);
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
