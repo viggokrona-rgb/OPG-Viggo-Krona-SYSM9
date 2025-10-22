@@ -11,5 +11,12 @@ namespace CookMaster
         public string Username { get; set; }
         public string Password { get; set; }
         public string Country { get; set; }
+
+
+    }
+
+    public class Admin : User
+    {
+        // Additional properties or methods for Admin can be added here
     }
 }

@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 namespace CookMaster.ViewModels
 {
-    public class RecipeviewModel : INotifyPropertyChanged
+    public class RecipeViewModel : INotifyPropertyChanged
     {
         private Recipe? _selectedRecipe;
 
@@ -40,12 +40,12 @@ namespace CookMaster.ViewModels
         public ICommand SignOutCommand { get; }
         public ICommand UserCommand { get; }
 
-        public RecipeviewModel(string username)
+        public RecipeViewModel(string username)
         {
             Username = username;
             IsAdmin = username == "admin"; // enkel admin-check
 
-            Recipes = RecipeService.GetRecipes(username, IsAdmin);
+            Recipes = RecipeManager.GetRecipes(username, IsAdmin);
 
             AddCommand = new RelayCommand(_ => AddRecipe());
             RemoveCommand = new RelayCommand(_ => RemoveRecipe());
@@ -70,7 +70,7 @@ namespace CookMaster.ViewModels
                 return;
 
             }
-            RecipeService.RemoveRecipe(SelectedRecipe);
+            RecipeManager.RemoveRecipe(SelectedRecipe);
             Recipes.Remove(SelectedRecipe);
         }
 
@@ -109,21 +109,7 @@ namespace CookMaster.ViewModels
             userDetailsWindow.Show();
         }
 
-        public class RelayCommand : ICommand
-        {
-            private readonly Action<object?> _execute;
-            private readonly Predicate<object?>? _canExecute;
-
-            public RelayCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
-            {
-                _execute = execute;
-                _canExecute = canExecute;
-            }
-
-            public bool CanExecute(object? parameter) => _canExecute == null || _canExecute(parameter);
-            public void Execute(object? parameter) => _execute(parameter);
-            public event EventHandler? CanExecuteChanged;
-        }
+       
 
 
 

@@ -6,5 +6,6 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <managers:UserManager x:Key="UserManager" />
+        
     </Application.Resources>
 </Application>

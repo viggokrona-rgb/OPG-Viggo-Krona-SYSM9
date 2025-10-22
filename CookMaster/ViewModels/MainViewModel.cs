@@ -1,47 +1,69 @@
+using CookMaster.Managers;
+using CookMaster.Services;
+using CookMaster.Views;
 using System;
 using System.Windows;
-using CookMaster.Managers;
+using System.Windows.Input;
 
 namespace CookMaster.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private string _username = string.Empty;
+        private readonly UserManager _userManager;
+        private readonly RecipeManager _recipeManager;
+
+        private string _username = "";
         public string Username
         {
             get => _username;
-            set => SetProperty(ref _username, value);
+            set { _username = value; OnPropertyChanged(); }
         }
 
-        public UserManager UserManager { get; }
-
-        public MainViewModel()
+        private string _password = "";
+        public string Password
         {
-
-            UserManager = (UserManager)Application.Current.Resources["UserManager"];
-
+            get => _password;
+            set { _password = value; OnPropertyChanged(); }
         }
 
-        public void SignIn(string password)
+        public ICommand SignInCommand { get; }
+        public ICommand RegisterCommand { get; }
+
+        public MainViewModel(UserManager userManager, RecipeManager recipeManager)
         {
-           
-            string pass = password ?? string.Empty;
+            _userManager = userManager;
+            _recipeManager = recipeManager;
 
-            bool success = UserManager.Login(Username, pass);
+            SignInCommand = new RelayCommand(SignIn);
+            RegisterCommand = new RelayCommand(OpenRegister);
+        }
 
-            if (success)
+        private void SignIn(object? obj)
+        {
+            if (_userManager.ValidateUser(Username, Password))
             {
-                MessageBox.Show($"Signed in as {UserManager.CurrentUser.Username}", "Sign In");
+                var recipeWindow = new RecipeListWindow(Username, _userManager, _recipeManager);
+                recipeWindow.Show();
+                CloseWindow(obj);
             }
             else
             {
-                MessageBox.Show("Sign in failed", "Sign In");
+                MessageBox.Show("Fel användarnamn eller lösenord.", "Inloggning misslyckades", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
-        public void SignOut()
+        private void OpenRegister(object? obj)
         {
-            UserManager.Logout();
+            var regWindow = new RegisterWindow(_userManager, _recipeManager);
+            regWindow.Show();
+            CloseWindow(obj);
+        }
+
+        private void CloseWindow(object? obj)
+        {
+            if (obj is Window w)
+                w.Close();
         }
     }
+}
 }

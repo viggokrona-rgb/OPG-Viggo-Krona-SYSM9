@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using CookMaster.Managers;
+using CookMaster.Services;
+using CookMaster.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using CookMaster.ViewModels;
-using CookMaster.Managers;
 
 namespace CookMaster
 {
@@ -17,18 +18,14 @@ namespace CookMaster
         {
             InitializeComponent();
 
-            _vm = new MainViewModel();
-            DataContext = _vm;
+            DataContext = new MainViewModel(new UserManager(), new RecipeManager());
         }
-
-        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            _vm.SignIn(UsernameTextBox.Text == string.Empty? null: PasswordBox.Password);
-        }
-
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            
+            if (DataContext is MainViewModel vm && sender is System.Windows.Controls.PasswordBox pb)
+            {
+                vm.Password = pb.Password;
+            }
         }
     }
 }

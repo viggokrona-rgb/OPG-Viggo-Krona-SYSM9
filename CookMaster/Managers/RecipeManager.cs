@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CookMaster.Services
 {
-    public static class RecipeService
+    public  class RecipeManager
     {
         private static readonly ObservableCollection<Recipe> _recipes = new();
 

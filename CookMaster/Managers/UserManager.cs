@@ -18,7 +18,7 @@ namespace CookMaster.Managers
 
         private void CreateDefaultUsers()
         {
-            _users.Add(new User
+            _users.Add(new Admin
             {
                 Username = "admin",
                 Password = "password",

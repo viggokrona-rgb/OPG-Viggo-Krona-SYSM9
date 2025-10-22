@@ -6,7 +6,27 @@
         xmlns:local="clr-namespace:CookMaster.Views"
         mc:Ignorable="d"
         Title="CookMaster - Recept" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="Receptlista" FontSize="28" FontWeight="Bold" DockPanel.Dock="Left"/>
+            <TextBlock Text="{Binding Username}" FontSize="16" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+            
+        </DockPanel>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Recepies}" SelectedItem="{Binding selectedrecepie}" DisplayMemberPath="Title"/>
+       
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Användare" Width="80" Margin="4" Command="{Binding UserCommand}"/>
+            <Button Content="Lägg till recept" Width="100" Margin="4" Command="{Binding AddCommand}"/>
+            <Button Content="Detaljer" Width="90" Margin="4" Command="{Binding DetailsCommand}"/>
+            <Button Content="Ta bort" Width="90" Margin="4" Command="{Binding RemoveCommand}"/>
+            <Button Content="Info" Width="70" Margin="4" Command="{Binding InfoCommand}"/>
+            <Button Content="Logga ut" Width="100" Margin="4" Command="{Binding SignOutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </StackPanel>
     </Grid>
 </Window>
