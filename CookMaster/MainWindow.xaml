@@ -18,30 +18,8 @@
 
         <TextBlock Grid.Row="0" Text="Welcome to CookMaster!" FontSize="42" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,20"/>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
-            <TextBlock Text="CookMaster" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-
-            <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 
-                     PlaceholderText="Användarnamn" Margin="0,0,0,10"/>
-
-            <PasswordBox x:Name="PasswordBox" Margin="0,0,0,10">
-                <PasswordBox.Style>
-                    <Style TargetType="PasswordBox">
-                        <Setter Property="Tag" Value="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <EventSetter Event="PasswordChanged" Handler="PasswordBox_PasswordChanged"/>
-                    </Style>
-                </PasswordBox.Style>
-            </PasswordBox>
-
-            <Button Content="Sign In" 
-                    Command="{Binding SignInCommand}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
-                    Margin="0,5,0,5"/>
-
-            <Button Content="Register"
-                    Command="{Binding RegisterCommand}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-        </StackPanel>
+       
+        
 
     </Grid>
 </Window>

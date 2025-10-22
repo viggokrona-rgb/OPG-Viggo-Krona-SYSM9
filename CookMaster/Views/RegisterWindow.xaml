@@ -17,47 +17,22 @@
 
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Skapa nytt konto" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,6"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="100,8,100,0">
-            
-            <TextBlock Text=" Användarnamn" Margin="4"/>
-            
-            <TextBox Name="RegUsernameBox" Height="30"/>
-            
+            <TextBlock Text="Registrera ny användare" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <PasswordBox x:Name="PasswordBox" Margin="0,0,0,10" PasswordChanged="PasswordBox_PasswordChanged"/>
+        <ComboBox ItemsSource="{Binding Countries}" SelectedItem="{Binding Country}" Margin="0,0,0,10"/>
+
+        <Button Content="Registrera" 
+                    Command="{Binding RegisterCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
+                    Margin="0,5,0,5"/>
+
+        <Button Content="Avbryt" 
+                    Command="{Binding CancelCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>
-
-        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="100,8,100,0">
-           
-            <TextBlock Text=" Lösenord" Margin="4"/>
-            
-            <TextBox Name="RegPasswordBox" Height="30"/>
-            
-        </StackPanel>
-
-        <StackPanel Grid.Row="3" Orientation="Vertical" Margin="100,8,100,0">
-
-            <TextBlock Text="Land" Margin="4"/>
-            <ComboBox Name="CountryComboBox" Height="30">
-                <ComboBoxItem Content="Sweden" IsSelected="True"/>
-                <ComboBoxItem Content="Norway"/>
-                <ComboBoxItem Content="Denmark"/>
-                <ComboBoxItem Content="Finland"/>
-                <ComboBoxItem Content="Iceland"/>
-                <ComboBoxItem Content="Other"/>
-
-            </ComboBox>
-            
-
-        </StackPanel>
-
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
-            <Button Name="CreateAccountButton" Width="140" Height="36" Margin="6" Click="CreateAccountButton_Click">Skapa Konto</Button>
-            <Button Name="BackToLoginButton" Width="140" Height="36" Margin="6" Click="BackToLoginButton_Click">Tillbaka till Inloggning</Button>
-
-        </StackPanel>
-
-
-
     </Grid>
 </Window>

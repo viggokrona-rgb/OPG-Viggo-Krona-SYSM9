@@ -18,14 +18,6 @@ namespace CookMaster
            
         }
 
-        private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BackToLoginButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }

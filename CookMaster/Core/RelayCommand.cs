@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace CookMaster.ViewModels
+namespace CookMaster.Core
 {
     public class RelayCommand : ICommand
     {
