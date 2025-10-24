@@ -6,65 +6,119 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 
+
 namespace CookMaster.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ObservableObject
     {
-        private readonly UserManager _userManager;
-        private readonly RecipeManager _recipeManager;
+        //private readonly IAuthService _authService;
+        private readonly INavigationService _navigationService;
 
-        private string _username = "";
+        private string _username = string.Empty;
         public string Username
         {
             get => _username;
-            set { _username = value; OnPropertyChanged(); }
+            set
+            {
+                if (SetProperty(ref _username, value))
+                {
+                    CommandManager.InvalidateRequerySuggested();
+                }
+            }
         }
 
-        private string _password = "";
+        private string _password = string.Empty;
         public string Password
         {
             get => _password;
-            set { _password = value; OnPropertyChanged(); }
+            set
+            {
+                if (SetProperty(ref _password, value))
+                {
+                    CommandManager.InvalidateRequerySuggested();
+                }
+            }
+        }
+
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                if (SetProperty(ref _isBusy, value))
+                {
+                    CommandManager.InvalidateRequerySuggested();
+                }
+            }
+        }
+
+        private string _errorMessage = string.Empty;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
         }
 
         public ICommand SignInCommand { get; }
-        public ICommand RegisterCommand { get; }
+        public ICommand ForgotPasswordCommand { get; }
 
-        public MainViewModel(UserManager userManager, RecipeManager recipeManager)
+        public MainViewModel()
         {
-            _userManager = userManager;
-            _recipeManager = recipeManager;
+            //_authService = new AuthService();
+            _navigationService = new NavigationService();
 
-            SignInCommand = new RelayCommand(SignIn);
-            RegisterCommand = new RelayCommand(OpenRegister);
+            SignInCommand = new RelayCommand(async _ => await SignInAsync(), _ => CanSignIn());
+           
+
+#if DEBUG
+            // Prefill credentials in Debug builds to speed up testing
+            Username = "admin";
+            Password = "password";
+#endif
         }
 
-        private void SignIn(object? obj)
+        private bool CanSignIn()
         {
-            if (_userManager.ValidateUser(Username, Password))
+            return !IsBusy && !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
+        }
+
+        private async Task SignInAsync()
+        {
+            try
             {
-                var recipeWindow = new RecipeListWindow(Username, _userManager, _recipeManager);
-                recipeWindow.Show();
-                CloseWindow(obj);
+                IsBusy = true;
+                ErrorMessage = string.Empty;
+                UserManager userManager = (UserManager)Application.Current.Resources["UserManager"];
+                bool ok = userManager.Login(Username, Password);
+                if (ok)
+                {
+                    _navigationService.ShowRecipesWindow();
+                    
+                }
+                //bool ok = await _authService.SignInAsync(Username, Password);
+                //if (ok)
+                //{
+                //    // In a real app you would retrieve the user; for now store minimal info
+                //    UserManager.Instance.CurrentUser = new User { Username = Username };
+                //    _navigationService.ShowRecipesWindow();
+                //}
+                //else
+                //{
+                //    ErrorMessage = "Invalid username or password.";
+                //}
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Fel användarnamn eller lösenord.", "Inloggning misslyckades", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ErrorMessage = ex.Message;
             }
-        }
+            finally
+            {
+                IsBusy = false;
+            }
 
-        private void OpenRegister(object? obj)
-        {
-            var regWindow = new RegisterWindow(_userManager, _recipeManager);
-            regWindow.Show();
-            CloseWindow(obj);
-        }
 
-        private void CloseWindow(object? obj)
-        {
-            if (obj is Window w)
-                w.Close();
         }
     }
 }
-}
+

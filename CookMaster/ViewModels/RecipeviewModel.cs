@@ -1,16 +1,11 @@
-﻿using CookMaster.Model;
+﻿using CookMaster.Core;
+using CookMaster.Model;
 using CookMaster.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Shapes;
 
 namespace CookMaster.ViewModels
 {
@@ -49,17 +44,17 @@ namespace CookMaster.ViewModels
 
             AddCommand = new RelayCommand(_ => AddRecipe());
             RemoveCommand = new RelayCommand(_ => RemoveRecipe());
-            DetailsCommand = new RelayCommand(_ => ShowDetails());
+            //DetailsCommand = new RelayCommand(_ => ShowDetails());
             InfoCommand = new RelayCommand(_ => ShowInfo());
             SignOutCommand = new RelayCommand(window => SignOut(window as Window));
-            UserCommand = new RelayCommand(_ => OpenUserDetails());
+            //UserCommand = new RelayCommand(_ => OpenUserDetails());
         }
 
         private void AddRecipe()
         {
-            var addWindow = new AddRecipeWindow(Username);
-            addWindow.Show();
-            Application.Current.Windows[0]?.Close(); // stäng RecipeListWindow
+            //var addWindow = new AddRecipeWindow(Username);
+            //addWindow.Show();
+            //Application.Current.Windows[0]?.Close(); // stäng RecipeListWindow
         }
 
         private void RemoveRecipe()
@@ -74,16 +69,16 @@ namespace CookMaster.ViewModels
             Recipes.Remove(SelectedRecipe);
         }
 
-        private void ShowDetails()
-        {
-            if (SelectedRecipe == null)
-            {
-                MessageBox.Show("Vänligen välj ett recept för att se detaljer.");
-                return;
-            }
-            var details = new RecipeDetailsWindow(SelectedRecipe);
-            details.Show();
-        }
+        //private void ShowDetails()
+        //{
+        //    if (SelectedRecipe == null)
+        //    {
+        //        MessageBox.Show("Vänligen välj ett recept för att se detaljer.");
+        //        return;
+        //    }
+        //    var details = new RecipeDetailsWindow(SelectedRecipe);
+        //    details.Show();
+        //}
 
         private void ShowInfo()
         {
@@ -103,11 +98,11 @@ namespace CookMaster.ViewModels
             window?.Close();
         }
 
-        private void OpenUserDetails()
-        {
-            var userDetailsWindow = new UserDetailsWindow(Username);
-            userDetailsWindow.Show();
-        }
+        //private void OpenUserDetails()
+        //{
+        //    var userDetailsWindow = new UserDetailsWindow(Username);
+        //    userDetailsWindow.Show();
+        //}
 
        
 

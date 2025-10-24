@@ -9,11 +9,9 @@ namespace CookMaster.Managers
 
         public UserManager()
         {
-            
+
             _users = new List<User>();
             CreateDefaultUsers();
-
-
         }
 
         private void CreateDefaultUsers()
@@ -34,9 +32,6 @@ namespace CookMaster.Managers
             });
         }
 
-
-
-
         private User? _currentUser;
 
         public User? CurrentUser
@@ -45,18 +40,9 @@ namespace CookMaster.Managers
             set
             {
                 _currentUser = value;
-                OnPropertyChanged();
-
+                OnPropertyChanged();  
             }
-
-
-
         }
-
-
-
-
-
 
         private bool _isLoggedIn;
         public bool IsLoggedIn
@@ -70,7 +56,6 @@ namespace CookMaster.Managers
             }
         }
 
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -80,7 +65,7 @@ namespace CookMaster.Managers
 
         public bool Login(string username, string password)
         {
-          
+
 
             var user = _users.FirstOrDefault(u => u.Username == username && u.Password == password);
 

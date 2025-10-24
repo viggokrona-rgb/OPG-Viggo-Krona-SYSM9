@@ -1,3 +1,4 @@
+using CookMaster.Core;
 using CookMaster.Managers;
 using CookMaster.Services;
 using System;
@@ -46,31 +47,31 @@ namespace CookMaster.ViewModels
             _userManager = userManager;
             _recipeManager = recipeManager;
 
-            RegisterCommand = new RelayCommand(RegisterUser);
+            //RegisterCommand = new RelayCommand(RegisterUser);
             CancelCommand = new RelayCommand(Cancel);
         }
 
-        private void RegisterUser(object? obj)
-        {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
-            {
-                MessageBox.Show("Fyll i alla fält.", "Fel", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+        //private void RegisterUser(object? obj)
+        //{
+        //    if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+        //    {
+        //        MessageBox.Show("Fyll i alla fält.", "Fel", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //        return;
+        //    }
 
-            _userManager.AddUser(new UserInfo
-            {
-                Username = Username,
-                Password = Password,
-                Country = Country,
-                IsAdmin = false
-            });
+        //    _userManager.AddUser(new UserInfo
+        //    {
+        //        Username = Username,
+        //        Password = Password,
+        //        Country = Country,
+        //        IsAdmin = false
+        //    });
 
-            MessageBox.Show("Användare skapad!", "CookMaster", MessageBoxButton.OK, MessageBoxImage.Information);
-            var main = new MainWindow();
-            main.Show();
-            CloseWindow(obj);
-        }
+        //    MessageBox.Show("Användare skapad!", "CookMaster", MessageBoxButton.OK, MessageBoxImage.Information);
+        //    var main = new MainWindow();
+        //    main.Show();
+        //    CloseWindow(obj);
+        //}
 
         private void Cancel(object? obj)
         {
@@ -86,4 +87,4 @@ namespace CookMaster.ViewModels
         }
     }
 }
-}
+
