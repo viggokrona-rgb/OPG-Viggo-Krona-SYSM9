@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:CookMaster.ViewModels"
         xmlns:local="clr-namespace:CookMaster.Views"
         mc:Ignorable="d"
         Title="CookMaster - Recept" Height="800" Width="1024" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.DataContext>
+        <vm:RecipeViewModel />
+    </Window.DataContext>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,7 +22,7 @@
             <TextBlock Text="{Binding Username}" FontSize="16" DockPanel.Dock="Left" VerticalAlignment="Center"/>
             
         </DockPanel>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Recepies}" SelectedItem="{Binding selectedrecepie}" DisplayMemberPath="Title"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}" DisplayMemberPath="Title"/>
        
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button Content="Användare" Width="80" Margin="4" Command="{Binding UserCommand}"/>

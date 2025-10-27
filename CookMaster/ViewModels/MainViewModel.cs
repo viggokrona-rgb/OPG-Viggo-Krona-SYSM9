@@ -54,6 +54,7 @@ namespace CookMaster.ViewModels
         }
 
         private string _errorMessage = string.Empty;
+        
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -96,17 +97,12 @@ namespace CookMaster.ViewModels
                     _navigationService.ShowRecipesWindow();
                     
                 }
-                //bool ok = await _authService.SignInAsync(Username, Password);
-                //if (ok)
-                //{
-                //    // In a real app you would retrieve the user; for now store minimal info
-                //    UserManager.Instance.CurrentUser = new User { Username = Username };
-                //    _navigationService.ShowRecipesWindow();
-                //}
-                //else
-                //{
-                //    ErrorMessage = "Invalid username or password.";
-                //}
+                else
+                {
+                    ErrorMessage = "Ogiltigt användarnamn eller lösenord.";
+                }
+
+
             }
             catch (Exception ex)
             {

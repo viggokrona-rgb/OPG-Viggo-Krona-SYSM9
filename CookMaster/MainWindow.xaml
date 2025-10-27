@@ -34,7 +34,9 @@
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
 
-            <Button Content="Sign in" Command="{Binding SignInCommand}" HorizontalAlignment="Left" Padding="16,6" IsDefault="True"/>           
+            <Button Content="Logga in" Command="{Binding SignInCommand}" HorizontalAlignment="Left" Padding="16,6" IsDefault="True"/>
+
+            <TextBlock Grid.Row="5" Text="{Binding ErrorMessage}" Foreground="Tomato" Margin="0,8,0,0"/>
         </StackPanel>
 
 

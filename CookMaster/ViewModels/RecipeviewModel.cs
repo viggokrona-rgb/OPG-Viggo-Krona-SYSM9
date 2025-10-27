@@ -1,4 +1,5 @@
 ﻿using CookMaster.Core;
+using CookMaster.Managers;
 using CookMaster.Model;
 using CookMaster.Services;
 using System.Collections.ObjectModel;
@@ -9,23 +10,25 @@ using System.Windows.Input;
 
 namespace CookMaster.ViewModels
 {
-    public class RecipeViewModel : INotifyPropertyChanged
+    public class RecipeViewModel : ObservableObject
     {
         private Recipe? _selectedRecipe;
+        private ObservableCollection<Recipe> recipes;
 
         public string Username { get; }
 
         public bool IsAdmin { get; }
 
-        public ObservableCollection<Recipe> Recipes { get; private set; }
+       
 
         public Recipe? SelectedRecipe
         {
             get => _selectedRecipe;
-            set { _selectedRecipe = value; OnPropertyChanged(); }
-
-
-
+            set => SetProperty(ref _selectedRecipe, value);
+        }
+        public ObservableCollection<Recipe> Recipes { 
+            get => recipes;
+            set => SetProperty(ref recipes, value); 
         }
 
         public ICommand AddCommand { get; }
@@ -35,13 +38,11 @@ namespace CookMaster.ViewModels
         public ICommand SignOutCommand { get; }
         public ICommand UserCommand { get; }
 
-        public RecipeViewModel(string username)
+        public RecipeViewModel()
         {
-            Username = username;
-            IsAdmin = username == "admin"; // enkel admin-check
-
-            Recipes = RecipeManager.GetRecipes(username, IsAdmin);
-
+           // Username = username;
+            IsAdmin = true; // enkel admin-check
+            Recipes = RecipeManager.GetRecipes(Username, IsAdmin);
             AddCommand = new RelayCommand(_ => AddRecipe());
             RemoveCommand = new RelayCommand(_ => RemoveRecipe());
             //DetailsCommand = new RelayCommand(_ => ShowDetails());
@@ -104,16 +105,7 @@ namespace CookMaster.ViewModels
         //    userDetailsWindow.Show();
         //}
 
-       
-
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string? propName = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-
-
-
+      
 
     }
 }
