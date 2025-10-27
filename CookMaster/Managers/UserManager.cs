@@ -1,91 +1,26 @@
+using CookMaster.Core;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CookMaster.Managers
 {
-    public class UserManager : INotifyPropertyChanged
+    public interface IUserManager
     {
-        private List<User> _users;
+        User? CurrentUser { get; set; }
+    }
 
-        public UserManager()
-        {
-
-            _users = new List<User>();
-            CreateDefaultUsers();
-        }
-
-        private void CreateDefaultUsers()
-        {
-            _users.Add(new Admin
-            {
-                Username = "admin",
-                Password = "password",
-                Country = "Sweden"
-            });
-
-            _users.Add(new User
-            {
-
-                Username = "user",
-                Password = "password",
-                Country = "Sweden"
-            });
-        }
+    public sealed class UserManager : ObservableObject, IUserManager
+    {
+        private static readonly Lazy<UserManager> _instance = new(() => new UserManager());
+        public static UserManager Instance => _instance.Value;
 
         private User? _currentUser;
-
         public User? CurrentUser
         {
-            get { return _currentUser; }
-            set
-            {
-                _currentUser = value;
-                OnPropertyChanged();  
-            }
+            get => _currentUser;
+            set => SetProperty(ref _currentUser, value);
         }
 
-        private bool _isLoggedIn;
-        public bool IsLoggedIn
-        {
-            get => _isLoggedIn;
-            private set
-            {
-                if (_isLoggedIn == value) return;
-                _isLoggedIn = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public bool Login(string username, string password)
-        {
-
-
-            var user = _users.FirstOrDefault(u => u.Username == username && u.Password == password);
-
-            if (user != null)
-            {
-                CurrentUser = user;
-                IsLoggedIn = true;
-                return true;
-            }
-            return false;
-
-
-
-
-        }
-
-        public void Logout()
-        {
-            CurrentUser = null;
-            IsLoggedIn = false;
-        }
+        private UserManager() { }
     }
 }

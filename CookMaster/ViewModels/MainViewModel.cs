@@ -11,7 +11,7 @@ namespace CookMaster.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
-        //private readonly IAuthService _authService;
+        private readonly IAuthService _authService;
         private readonly INavigationService _navigationService;
 
         private string _username = string.Empty;
@@ -66,7 +66,7 @@ namespace CookMaster.ViewModels
 
         public MainViewModel()
         {
-            //_authService = new AuthService();
+            _authService = new AuthService();
             _navigationService = new NavigationService();
 
             SignInCommand = new RelayCommand(async _ => await SignInAsync(), _ => CanSignIn());
@@ -90,8 +90,8 @@ namespace CookMaster.ViewModels
             {
                 IsBusy = true;
                 ErrorMessage = string.Empty;
-                UserManager userManager = (UserManager)Application.Current.Resources["UserManager"];
-                bool ok = userManager.Login(Username, Password);
+                bool ok = await _authService.SignInAsync(Username, Password);
+                
                 if (ok)
                 {
                     _navigationService.ShowRecipesWindow();

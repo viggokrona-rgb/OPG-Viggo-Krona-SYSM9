@@ -26,10 +26,7 @@ namespace CookMaster.ViewModels
             get => _selectedRecipe;
             set => SetProperty(ref _selectedRecipe, value);
         }
-        public ObservableCollection<Recipe> Recipes { 
-            get => recipes;
-            set => SetProperty(ref recipes, value); 
-        }
+        public ObservableCollection<Recipe> Recipes => RecipeManager.Instance.Recipes;
 
         public ICommand AddCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -41,21 +38,20 @@ namespace CookMaster.ViewModels
         public RecipeViewModel()
         {
            // Username = username;
-            IsAdmin = true; // enkel admin-check
-            Recipes = RecipeManager.GetRecipes(Username, IsAdmin);
+            IsAdmin = true; // enkel admin-check           
             AddCommand = new RelayCommand(_ => AddRecipe());
             RemoveCommand = new RelayCommand(_ => RemoveRecipe());
-            //DetailsCommand = new RelayCommand(_ => ShowDetails());
+            DetailsCommand = new RelayCommand(_ => ShowDetails());
             InfoCommand = new RelayCommand(_ => ShowInfo());
             SignOutCommand = new RelayCommand(window => SignOut(window as Window));
-            //UserCommand = new RelayCommand(_ => OpenUserDetails());
+            UserCommand = new RelayCommand(_ => OpenUserDetails());
         }
 
         private void AddRecipe()
         {
             //var addWindow = new AddRecipeWindow(Username);
             //addWindow.Show();
-            //Application.Current.Windows[0]?.Close(); // stäng RecipeListWindow
+            Application.Current.Windows[0]?.Close(); // stäng RecipeListWindow
         }
 
         private void RemoveRecipe()
@@ -66,20 +62,20 @@ namespace CookMaster.ViewModels
                 return;
 
             }
-            RecipeManager.RemoveRecipe(SelectedRecipe);
+            //RecipeManager.RemoveRecipe(SelectedRecipe);
             Recipes.Remove(SelectedRecipe);
         }
 
-        //private void ShowDetails()
-        //{
-        //    if (SelectedRecipe == null)
-        //    {
-        //        MessageBox.Show("Vänligen välj ett recept för att se detaljer.");
-        //        return;
-        //    }
-        //    var details = new RecipeDetailsWindow(SelectedRecipe);
-        //    details.Show();
-        //}
+        private void ShowDetails()
+        {
+            if (SelectedRecipe == null)
+            {
+                MessageBox.Show("Vänligen välj ett recept för att se detaljer.");
+                return;
+            }
+           // var details = new RecipeDetailsWindow(SelectedRecipe);
+            //details.Show();
+        }
 
         private void ShowInfo()
         {
@@ -99,13 +95,13 @@ namespace CookMaster.ViewModels
             window?.Close();
         }
 
-        //private void OpenUserDetails()
-        //{
-        //    var userDetailsWindow = new UserDetailsWindow(Username);
-        //    userDetailsWindow.Show();
-        //}
+        private void OpenUserDetails()
+        {
+            //var userDetailsWindow = new UserDetailsWindow(Username);
+            //userDetailsWindow.Show();
+        }
 
-      
+
 
     }
 }
