@@ -2,6 +2,7 @@
 using CookMaster.Managers;
 using CookMaster.Model;
 using CookMaster.Services;
+using CookMaster.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -14,8 +15,15 @@ namespace CookMaster.ViewModels
     {
         private Recipe? _selectedRecipe;
         private ObservableCollection<Recipe> recipes;
+        private string username;
 
-        public string Username { get; }
+        public string Username
+        { 
+            
+            get => username;
+            set => SetProperty(ref username, value); 
+        }
+
 
         public bool IsAdmin { get; }
 
@@ -28,6 +36,8 @@ namespace CookMaster.ViewModels
         }
         public ObservableCollection<Recipe> Recipes => RecipeManager.Instance.Recipes;
 
+         private readonly INavigationService _navigationService;
+
         public ICommand AddCommand { get; }
         public ICommand RemoveCommand { get; }
         public ICommand DetailsCommand { get; }
@@ -37,9 +47,11 @@ namespace CookMaster.ViewModels
 
         public RecipeViewModel()
         {
-           // Username = username;
+            _navigationService = new NavigationService();
+            Username = UserManager.Instance.CurrentUser?.Username ?? string.Empty;
+
             IsAdmin = true; // enkel admin-check           
-            AddCommand = new RelayCommand(_ => AddRecipe());
+            AddCommand = new RelayCommand(_ => _navigationService.ShowAddRecipeWindow());
             RemoveCommand = new RelayCommand(_ => RemoveRecipe());
             DetailsCommand = new RelayCommand(_ => ShowDetails());
             InfoCommand = new RelayCommand(_ => ShowInfo());
@@ -47,12 +59,6 @@ namespace CookMaster.ViewModels
             UserCommand = new RelayCommand(_ => OpenUserDetails());
         }
 
-        private void AddRecipe()
-        {
-            //var addWindow = new AddRecipeWindow(Username);
-            //addWindow.Show();
-            Application.Current.Windows[0]?.Close(); // stäng RecipeListWindow
-        }
 
         private void RemoveRecipe()
         {
@@ -62,7 +68,7 @@ namespace CookMaster.ViewModels
                 return;
 
             }
-            //RecipeManager.RemoveRecipe(SelectedRecipe);
+            
             Recipes.Remove(SelectedRecipe);
         }
 

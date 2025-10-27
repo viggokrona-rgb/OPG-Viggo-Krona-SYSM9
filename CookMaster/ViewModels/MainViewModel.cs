@@ -91,9 +91,12 @@ namespace CookMaster.ViewModels
                 IsBusy = true;
                 ErrorMessage = string.Empty;
                 bool ok = await _authService.SignInAsync(Username, Password);
-                
+
+
                 if (ok)
                 {
+                  
+
                     _navigationService.ShowRecipesWindow();
                     
                 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CookMaster.Managers;
 using CookMaster.Model;
 
 
@@ -25,9 +26,12 @@ namespace CookMaster.Services
 
         public Task<bool> SignInAsync(string username, string password) 
         {
-            var ok = _users.Any(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase)
+            var user = _users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase)
                                    && u.Password == password);
-            return Task.FromResult(ok);
+
+            UserManager.Instance.CurrentUser = user;
+
+            return Task.FromResult(user != null);
         }
 
         public Task<bool> ForgotPasswordAsync(string username)
