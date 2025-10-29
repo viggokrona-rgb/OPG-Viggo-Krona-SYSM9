@@ -34,9 +34,9 @@ namespace CookMaster.ViewModels
             get => _selectedRecipe;
             set => SetProperty(ref _selectedRecipe, value);
         }
-        public ObservableCollection<Recipe> Recipes => RecipeManager.Instance.Recipes;
+        public ObservableCollection<Recipe> Recipes { get; set; }
 
-         private readonly INavigationService _navigationService;
+        private readonly INavigationService _navigationService;
 
         public ICommand AddCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -57,6 +57,17 @@ namespace CookMaster.ViewModels
             InfoCommand = new RelayCommand(_ => ShowInfo());
             SignOutCommand = new RelayCommand(window => SignOut(window as Window));
             UserCommand = new RelayCommand(_ => OpenUserDetails());
+
+            var recipes = RecipeManager.Instance.Recipes;
+
+            if (UserManager.Instance.CurrentUser is Admin)
+            {
+                Recipes = new ObservableCollection<Recipe>(recipes);
+            }
+            else
+            {
+                Recipes = new ObservableCollection<Recipe>(recipes.Where(x => x.CreatedBy?.Username == Username));
+            }
         }
 
 

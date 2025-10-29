@@ -8,83 +8,71 @@ using System.Windows.Input;
 
 namespace CookMaster.ViewModels
 {
-    public class RegisterViewModel : ViewModelBase
+    public class RegisterViewModel : ObservableObject
     {
-        private readonly UserManager _userManager;
-        private readonly RecipeManager _recipeManager;
+        private readonly INavigationService _navigationService;
+       
 
-        public ObservableCollection<string> Countries { get; } = new()
-        {
-            "Sverige", "Norge", "Danmark", "Finland", "Tyskland", "USA"
-        };
-
-        private string _username = "";
+        private string _username = string.Empty;
         public string Username
         {
             get => _username;
-            set { _username = value; OnPropertyChanged(); }
+            set => SetProperty(ref _username, value);
         }
 
-        private string _password = "";
+        private string _password = string.Empty;
         public string Password
         {
             get => _password;
-            set { _password = value; OnPropertyChanged(); }
+            set => SetProperty(ref _password, value);
         }
 
-        private string _country = "";
+        private string _country = string.Empty;
         public string Country
         {
             get => _country;
-            set { _country = value; OnPropertyChanged(); }
+            set => SetProperty(ref _country, value);
+        }
+
+        private string _message = string.Empty;
+        public string Message
+        {
+            get => _message;
+            set => SetProperty(ref _message, value);
         }
 
         public ICommand RegisterCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public RegisterViewModel(UserManager userManager, RecipeManager recipeManager)
+        public RegisterViewModel()
         {
-            _userManager = userManager;
-            _recipeManager = recipeManager;
+            _navigationService = new NavigationService();
 
-            //RegisterCommand = new RelayCommand(RegisterUser);
-            CancelCommand = new RelayCommand(Cancel);
+            RegisterCommand = new RelayCommand(async _ => await RegisterAsync(), _ => CanRegister());
+            CancelCommand = new RelayCommand(_ => _navigationService.ShowSignInWindow());
         }
 
-        //private void RegisterUser(object? obj)
-        //{
-        //    if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
-        //    {
-        //        MessageBox.Show("Fyll i alla fält.", "Fel", MessageBoxButton.OK, MessageBoxImage.Warning);
-        //        return;
-        //    }
-
-        //    _userManager.AddUser(new UserInfo
-        //    {
-        //        Username = Username,
-        //        Password = Password,
-        //        Country = Country,
-        //        IsAdmin = false
-        //    });
-
-        //    MessageBox.Show("Användare skapad!", "CookMaster", MessageBoxButton.OK, MessageBoxImage.Information);
-        //    var main = new MainWindow();
-        //    main.Show();
-        //    CloseWindow(obj);
-        //}
-
-        private void Cancel(object? obj)
+        private bool CanRegister()
         {
-            var main = new MainWindow();
-            main.Show();
-            CloseWindow(obj);
+            return !string.IsNullOrWhiteSpace(Username)
+                && !string.IsNullOrWhiteSpace(Password);
         }
 
-        private void CloseWindow(object? obj)
+        private async Task RegisterAsync()
         {
-            if (obj is Window w)
-                w.Close();
+            Message = string.Empty;
+
+            
+            var user = new User { Username = Username, Password = Password, Country = Country };
+
+            // Store user in UserManager temporarily and navigate back to sign-in
+            UserManager.Instance.Users.Add(user);
+
+            _navigationService.ShowSignInWindow();
         }
     }
 }
+
+        
+
 

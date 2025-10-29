@@ -1,4 +1,5 @@
 ﻿using CookMaster.Core;
+using CookMaster.Managers;
 using CookMaster.Model;
 using CookMaster.Services;
 using System;
@@ -49,14 +50,21 @@ namespace CookMaster.ViewModels
 
         private void Save()
         {
-            var recipe = new Recipe
+            if (UserManager.Instance.CurrentUser != null)
             {
-                Title = Title,
-                Ingredients = Ingredients,
-                Instructions = Instructions
-            };
+                var recipe = new Recipe
+                {
+                    Title = Title,
+                    Ingredients = Ingredients,
+                    Instructions = Instructions,
+                    CreatedBy = UserManager.Instance.CurrentUser
+                };
 
-            RecipeManager.Instance.Recipes.Add(recipe);
+                RecipeManager.Instance.Recipes.Add(recipe);
+            }
+            
+
+            
             _navigationService.ShowRecipesWindow();
         }
     }

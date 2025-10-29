@@ -15,6 +15,8 @@ namespace CookMaster.Model
         public string Description { get; set; }
         public string Author { get; set; }
 
+        public User CreatedBy { get; set; }
+
 
 
     }

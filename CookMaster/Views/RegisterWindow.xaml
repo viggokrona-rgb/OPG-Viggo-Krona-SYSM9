@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:CookMaster.ViewModels"
         xmlns:local="clr-namespace:CookMaster"
         mc:Ignorable="d"
         Title="Register - CookMaster" Height="800" Width="1024" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.DataContext>
+        <vm:RegisterViewModel />
+    </Window.DataContext>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,11 +25,13 @@
 
         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="100,8,100,0">
             <TextBlock Text="Användarnamn" Margin="4"/>
+            <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
 
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="100,8,100,0">
             <TextBlock Text="Lösenord" Margin="4"/>
+            <PasswordBox local:PasswordHelper.BindPassword="True" local:PasswordHelper.BoundPassword="{Binding Password, Mode=TwoWay}" MinWidth="240"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Vertical" Margin="100,8,100,0">
@@ -42,6 +48,11 @@
                 <ComboBoxItem Content="United Kingdom"/>
                 <ComboBoxItem Content="Other"/>
             </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,16,0,0" HorizontalAlignment="Center">
+            <Button Content="Registrera" Command="{Binding RegisterCommand}" Padding="16,6"/>
+            <Button Content="Tillbaka" Command="{Binding CancelCommand}" Padding="12,6" Margin="8,0,0,0"/>
         </StackPanel>
 
 

@@ -8,9 +8,8 @@ namespace CookMaster.Services
     {
         void ShowRecipesWindow();
         void ShowSignInWindow();
-
-
         void ShowAddRecipeWindow();
+        void ShowRegisterWindow();
     }
 
     public class NavigationService : INavigationService
@@ -35,6 +34,14 @@ namespace CookMaster.Services
         public void ShowAddRecipeWindow()
         {
             var win = new AddRecipeWindow();
+            win.Show();
+            System.Windows.Application.Current.MainWindow?.Close();
+            System.Windows.Application.Current.MainWindow = win;
+        }
+
+        public void ShowRegisterWindow()
+        {
+            var win = new RegisterWindow();
             win.Show();
             System.Windows.Application.Current.MainWindow?.Close();
             System.Windows.Application.Current.MainWindow = win;
