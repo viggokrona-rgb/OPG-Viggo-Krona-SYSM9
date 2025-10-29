@@ -73,7 +73,7 @@ namespace CookMaster.ViewModels
 
             SignInCommand = new RelayCommand(async _ => await SignInAsync(), _ => CanSignIn());
             RegisterCommand = new RelayCommand(_ => _navigationService.ShowRegisterWindow());
-
+            ForgotPasswordCommand = new RelayCommand(_ => _navigationService.ShowForgotPasswordWindow());
 
 #if DEBUG
             // Prefill credentials in Debug builds to speed up testing

@@ -8,7 +8,9 @@
         mc:Ignorable="d"
         Title="UserDetailsWindow"  Height="480" Width="480" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
+        
         <vm:UserDetailsViewModel/>
+        
     </Window.DataContext>
 
     <Grid Margin="16">

@@ -5,6 +5,7 @@
              xmlns:managers="clr-namespace:CookMaster.Managers"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        
        
     </Application.Resources>
 </Application>

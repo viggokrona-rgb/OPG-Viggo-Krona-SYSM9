@@ -12,6 +12,9 @@ namespace CookMaster.Services
         void ShowRegisterWindow();
 
         void ShowUserDetailsWindow();
+
+        void ShowResetPasswordWindow(string? username = null);
+        void ShowForgotPasswordWindow();
     }
 
     public class NavigationService : INavigationService
@@ -52,6 +55,28 @@ namespace CookMaster.Services
         public void ShowUserDetailsWindow()
         {
             var win = new UserDetailsWindow();
+            win.Show();
+            System.Windows.Application.Current.MainWindow?.Close();
+            System.Windows.Application.Current.MainWindow = win;
+
+        }
+
+        public void ShowResetPasswordWindow(string? username = null)
+        {
+            var win = new ResetPasswordWindow();
+            if (win.DataContext is ViewModels.ResetPasswordViewModel vm && !string.IsNullOrWhiteSpace(username))
+            {
+                vm.Username = username;
+                // trigger lookup to show security question
+                if (vm.LookupCommand.CanExecute(null)) vm.LookupCommand.Execute(null);
+            }
+            win.Show();
+            System.Windows.Application.Current.MainWindow?.Close();
+            System.Windows.Application.Current.MainWindow = win;
+        }
+        public void ShowForgotPasswordWindow()
+        {
+            var win = new ForgotPasswordWindow();
             win.Show();
             System.Windows.Application.Current.MainWindow?.Close();
             System.Windows.Application.Current.MainWindow = win;

@@ -7,6 +7,12 @@ namespace CookMaster.Managers
     public interface IUserManager
     {
         User? CurrentUser { get; set; }
+
+        Task<bool> UpdateUserAsync(string originalUsername, User updatedUser);
+
+        Task<User?> GetUserByUsernameAsync(string username);
+        Task<bool> ValidateSecurityAnswerAsync(string username, string answer);
+        Task<bool> ResetPasswordAsync(string username, string newPassword);
     }
 
     public sealed class UserManager : ObservableObject, IUserManager
@@ -25,8 +31,8 @@ namespace CookMaster.Managers
         {
             Users = new()
             {
-                new Admin { Username = "admin", Password = "password", Country = "Sweden" },
-                new User { Username = "alice", Password = "secret1", Country = "USA" },
+                new Admin { Username = "admin", Password = "password", Country = "Sweden",SecurityQuestion ="Vad är min favorit färg?",SecurityAnswer ="blå" },
+                new User { Username = "user", Password = "password", Country = "USA", SecurityQuestion = "Vilken Kurs studerar jag?", SecurityAnswer = "OPG"},
                 new User { Username = "bob", Password = "secret2", Country = "UK" },
             };
         }
@@ -49,6 +55,48 @@ namespace CookMaster.Managers
             // In a real app you would send a reset link or similar
             var exists = Users.Any(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
             return Task.FromResult(exists);
+        }
+
+        public Task<bool> UpdateUserAsync(string originalUsername, User updatedUser)
+        {
+            if (updatedUser == null || string.IsNullOrWhiteSpace(originalUsername)) return Task.FromResult(false);
+
+            var existing = Users.FirstOrDefault(u => string.Equals(u.Username, originalUsername, StringComparison.OrdinalIgnoreCase));
+            if (existing == null) return Task.FromResult(false);
+
+            // If username changed, ensure new username isn't taken by another user
+            if (!string.Equals(originalUsername, updatedUser.Username, StringComparison.OrdinalIgnoreCase))
+            {
+                var taken = Users.Any(u => string.Equals(u.Username, updatedUser.Username, StringComparison.OrdinalIgnoreCase));
+                if (taken) return Task.FromResult(false);
+            }
+
+            existing.Username = updatedUser.Username;
+            existing.Password = updatedUser.Password;
+            existing.Country = updatedUser.Country;
+
+            return Task.FromResult(true);
+        }
+
+        public Task<User?> GetUserByUsernameAsync(string username)
+        {
+            var user = Users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
+            return Task.FromResult(user);
+        }
+        public Task<bool> ValidateSecurityAnswerAsync(string username, string answer)
+        {
+            var user = Users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
+            if (user == null) return Task.FromResult(false);
+            var ok = string.Equals(user.SecurityAnswer ?? string.Empty, answer ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+            return Task.FromResult(ok);
+        }
+
+        public Task<bool> ResetPasswordAsync(string username, string newPassword)
+        {
+            var user = Users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
+            if (user == null) return Task.FromResult(false);
+            user.Password = newPassword;
+            return Task.FromResult(true);
         }
     }
 

@@ -12,6 +12,9 @@ namespace CookMaster
         public string Password { get; set; }
         public string Country { get; set; }
 
+        public string? SecurityQuestion { get; set; }
+        public string? SecurityAnswer { get; set; }
+
 
     }
 

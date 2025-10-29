@@ -38,6 +38,8 @@
 
             <Button Content="Registrera" Command="{Binding RegisterCommand}" HorizontalAlignment="Right" Padding="12,6" Margin="8,0,0,0"/>
 
+            <Button Content="Glömt Lösenord?" Command="{Binding ForgotPasswordCommand}" Padding="12,6" Margin="8,0,0,0"/>
+
             <TextBlock Grid.Row="5" Text="{Binding ErrorMessage}" Foreground="Tomato" Margin="0,8,0,0"/>
         </StackPanel>
 
