@@ -56,7 +56,7 @@ namespace CookMaster.ViewModels
             DetailsCommand = new RelayCommand(_ => ShowDetails());
             InfoCommand = new RelayCommand(_ => ShowInfo());
             SignOutCommand = new RelayCommand(window => SignOut(window as Window));
-            UserCommand = new RelayCommand(_ => OpenUserDetails());
+            UserCommand = new RelayCommand(_ => _navigationService.ShowUserDetailsWindow());
 
             var recipes = RecipeManager.Instance.Recipes;
 
@@ -117,11 +117,7 @@ namespace CookMaster.ViewModels
             window?.Close();
         }
 
-        private void OpenUserDetails()
-        {
-            //var userDetailsWindow = new UserDetailsWindow(Username);
-            //userDetailsWindow.Show();
-        }
+        
 
 
 
