@@ -90,8 +90,13 @@ namespace CookMaster.ViewModels
                 MessageBox.Show("Vänligen välj ett recept för att se detaljer.");
                 return;
             }
-           // var details = new RecipeDetailsWindow(SelectedRecipe);
-            //details.Show();
+            var details = new RecipeDetailsWindow(SelectedRecipe);
+            details.Show();
+            Application.Current.MainWindow?.Close();
+            Application.Current.MainWindow = details;
+
+
+
         }
 
         private void ShowInfo()

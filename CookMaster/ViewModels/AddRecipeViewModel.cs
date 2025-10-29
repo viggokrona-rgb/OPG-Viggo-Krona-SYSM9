@@ -46,7 +46,7 @@ namespace CookMaster.ViewModels
             CancelCommand = new RelayCommand(_ => _navigationService.ShowRecipesWindow());
 
         }
-        private bool CanSave() => !string.IsNullOrWhiteSpace(Title);
+        private bool CanSave() => !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions);
 
         private void Save()
         {

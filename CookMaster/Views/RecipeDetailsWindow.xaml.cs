@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CookMaster.Model;
+using CookMaster.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,12 @@ namespace CookMaster.Views
     /// </summary>
     public partial class RecipeDetailsWindow : Window
     {
-        public RecipeDetailsWindow()
+        
+
+        public RecipeDetailsWindow(Recipe selectedRecipe)
         {
             InitializeComponent();
+            DataContext = new RecipeDetailsViewModel(selectedRecipe);
         }
     }
 }

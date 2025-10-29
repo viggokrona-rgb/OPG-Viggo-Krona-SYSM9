@@ -47,6 +47,8 @@ namespace CookMaster.Services
             System.Windows.Application.Current.MainWindow = win;
         }
 
+       
+
 
     }
 }

@@ -3,10 +3,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:CookMaster.ViewModels"
         xmlns:local="clr-namespace:CookMaster.Views"
         mc:Ignorable="d"
-        Title="RecipeDetailsWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Receptdetaljer" Height="768" Width="1024" WindowStartupLocation="CenterScreen">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Receptdetaljer" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,12,0,0">
+            <TextBlock Text="Titel" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" FontSize="16"/>
+
+            <TextBlock Text="Ingredienser" Margin="0,12,0,0" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding Ingredients, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="120" IsReadOnly="{Binding IsReadOnly}"/>
+
+            <TextBlock Text="Instruktioner" Margin="0,12,0,0" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding Instructions, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" Height="180" IsReadOnly="{Binding IsReadOnly}"/>
+
+            <TextBlock Text="Kategori" Margin="0,12,0,0" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}"/>
+
+            <TextBlock Text="Tid (Minuter)" Margin="0,12,0,0" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}"/>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,12,0,0">
+                <Button Content="Ändra" Command="{Binding EditCommand}" Padding="12,6" Margin="0,0,8,0"/>
+                <Button Content="Spara" Command="{Binding SaveCommand}" Padding="12,6" Margin="0,0,8,0"/>
+                <Button Content="Avbryt" Command="{Binding CancelCommand}" Padding="12,6" Margin="0,0,8,0"/>
+                <Button Content="Tillbaka" Padding="12,6" Command="{Binding BackCommand}"/>
+            </StackPanel>
+
+
+        </StackPanel>
+
+
+
     </Grid>
 </Window>
