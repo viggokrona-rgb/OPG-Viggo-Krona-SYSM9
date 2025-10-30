@@ -1,5 +1,6 @@
 
 
+using CookMaster.Model;
 using CookMaster.Views;
 
 namespace CookMaster.Services
@@ -8,13 +9,14 @@ namespace CookMaster.Services
     {
         void ShowRecipesWindow();
         void ShowSignInWindow();
-        void ShowAddRecipeWindow();
+        void ShowAddRecipeWindow(Recipe? template = null);
         void ShowRegisterWindow();
 
         void ShowUserDetailsWindow();
 
         void ShowResetPasswordWindow(string? username = null);
         void ShowForgotPasswordWindow();
+       
     }
 
     public class NavigationService : INavigationService
@@ -36,9 +38,10 @@ namespace CookMaster.Services
             System.Windows.Application.Current.MainWindow = win;
         }
 
-        public void ShowAddRecipeWindow()
+        public void ShowAddRecipeWindow(Recipe? template = null)
         {
             var win = new AddRecipeWindow();
+            win.DataContext = new ViewModels.AddRecipeViewModel(template);
             win.Show();
             System.Windows.Application.Current.MainWindow?.Close();
             System.Windows.Application.Current.MainWindow = win;
@@ -80,10 +83,10 @@ namespace CookMaster.Services
             win.Show();
             System.Windows.Application.Current.MainWindow?.Close();
             System.Windows.Application.Current.MainWindow = win;
+
         }
 
-
-
-
+       
     }
+
 }

@@ -34,6 +34,12 @@
             <TextBlock Text="Instruktioner" FontWeight="Bold" Margin="0,8,0,0"/>
             <TextBox Text="{Binding Instructions}" AcceptsReturn="True" Height="50"/>
 
+            <TextBlock Text="Kategori" Margin="0,12,0,0" FontWeight="Bold"/>
+            <TextBox Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}"/>
+
+            <TextBlock Text="Tid (Minuter)" Margin="0,12,0,0" FontWeight="Bold"/>
+            <TextBox Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}"/>
+
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">

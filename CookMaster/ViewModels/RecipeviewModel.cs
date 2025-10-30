@@ -19,10 +19,10 @@ namespace CookMaster.ViewModels
         private string username;
 
         public string Username
-        { 
-            
+        {
+
             get => username;
-            set => SetProperty(ref username, value); 
+            set => SetProperty(ref username, value);
         }
 
 
@@ -97,6 +97,7 @@ namespace CookMaster.ViewModels
         public ICommand InfoCommand { get; }
         public ICommand SignOutCommand { get; }
         public ICommand UserCommand { get; }
+        public ICommand CopyRecipeCommand { get; }
 
         public RecipeViewModel()
         {
@@ -110,6 +111,8 @@ namespace CookMaster.ViewModels
             InfoCommand = new RelayCommand(_ => ShowInfo());
             SignOutCommand = new RelayCommand(window => SignOut(window as Window));
             UserCommand = new RelayCommand(_ => _navigationService.ShowUserDetailsWindow());
+            CopyRecipeCommand = new RelayCommand(_ => _navigationService.ShowAddRecipeWindow(SelectedRecipe), _ => SelectedRecipe != null);
+
 
             var recipes = RecipeManager.Instance.Recipes;
 
@@ -141,7 +144,7 @@ namespace CookMaster.ViewModels
                     Recipes = new ObservableCollection<Recipe>(RecipeManager.Instance.Recipes.Where(x => x.CreatedBy?.Username == Username));
                 }
             };
-       }
+        }
 
 
         private void RemoveRecipe()
@@ -152,7 +155,7 @@ namespace CookMaster.ViewModels
                 return;
 
             }
-            
+
             Recipes.Remove(SelectedRecipe);
         }
 

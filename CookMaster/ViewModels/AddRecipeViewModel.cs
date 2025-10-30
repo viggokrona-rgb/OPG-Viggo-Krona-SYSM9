@@ -54,12 +54,21 @@ namespace CookMaster.ViewModels
         public ICommand SaveCommand  { get; }
         public ICommand CancelCommand { get; }
 
-        public AddRecipeViewModel()
+        public AddRecipeViewModel() : this(null) { }
+
+        public AddRecipeViewModel(Recipe? template)
         {
             _navigationService = new NavigationService();
             SaveCommand = new RelayCommand(_ => Save(), _ => CanSave());
             CancelCommand = new RelayCommand(_ => _navigationService.ShowRecipesWindow());
-
+            if (template != null)
+            {
+                Title = template.Title ?? string.Empty;
+                Ingredients = template.Ingredients ?? string.Empty;
+                Instructions = template.Instructions ?? string.Empty;
+                Category = template.Category ?? string.Empty;
+                Time = template.Time ?? string.Empty;
+            }
         }
         private bool CanSave() => !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions);
 
