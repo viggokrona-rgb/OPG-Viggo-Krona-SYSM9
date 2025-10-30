@@ -8,13 +8,14 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.Specialized;
 
 namespace CookMaster.ViewModels
 {
     public class RecipeViewModel : ObservableObject
     {
         private Recipe? _selectedRecipe;
-        private ObservableCollection<Recipe> recipes;
+        private ObservableCollection<Recipe> _recipes = new();
         private string username;
 
         public string Username
@@ -27,14 +28,66 @@ namespace CookMaster.ViewModels
 
         public bool IsAdmin { get; }
 
-       
+        private string _selectedCategory = string.Empty;
+        public string SelectedCategory
+        {
+            get => _selectedCategory;
+            set => SetProperty(ref _selectedCategory, value);
+        }
+
+        private ObservableCollection<Recipe> _filteredRecipes = new();
+        public ObservableCollection<Recipe> FilteredRecipes
+        {
+            get => _filteredRecipes;
+            set => SetProperty(ref _filteredRecipes, value);
+        }
+
+        private string _filterText = string.Empty;
+        public string FilterText
+        {
+            get => _filterText;
+            set => SetProperty(ref _filterText, value);
+        }
+
+        private bool _sortByDateDesc = true;
+        public bool SortByDateDesc
+        {
+            get => _sortByDateDesc;
+            set => SetProperty(ref _sortByDateDesc, value);
+        }
+
+        public ICommand ApplyFilterCommand { get; }
+        public ICommand ClearFilterCommand { get; }
+
+        public IEnumerable<string> AvailableCategories => Recipes.Select(r => r.Category).Where(t => !string.IsNullOrWhiteSpace(t)).Distinct();
+
+
 
         public Recipe? SelectedRecipe
         {
             get => _selectedRecipe;
             set => SetProperty(ref _selectedRecipe, value);
         }
-        public ObservableCollection<Recipe> Recipes { get; set; }
+
+        public ObservableCollection<Recipe> Recipes
+        {
+            get => _recipes;
+            set
+            {
+                if (SetProperty(ref _recipes, value))
+                {
+                    // ensure filtering whenever the collection changes
+                    ApplyFilter();
+                    _recipes.CollectionChanged -= Recipes_CollectionChanged;
+                    _recipes.CollectionChanged += Recipes_CollectionChanged;
+                }
+            }
+        }
+
+        private void Recipes_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            ApplyFilter();
+        }
 
         private readonly INavigationService _navigationService;
 
@@ -68,7 +121,27 @@ namespace CookMaster.ViewModels
             {
                 Recipes = new ObservableCollection<Recipe>(recipes.Where(x => x.CreatedBy?.Username == Username));
             }
-        }
+
+            ApplyFilterCommand = new RelayCommand(_ => ApplyFilter());
+            ClearFilterCommand = new RelayCommand(_ => ClearFilter());
+
+            // Initialize filtered list
+            ApplyFilter();
+
+            // ensure we react to adds/removes on the manager collection as well
+            RecipeManager.Instance.Recipes.CollectionChanged += (s, e) =>
+            {
+                // recreate local Recipes collection to reflect current user view
+                if (UserManager.Instance.CurrentUser is Admin)
+                {
+                    Recipes = new ObservableCollection<Recipe>(RecipeManager.Instance.Recipes);
+                }
+                else
+                {
+                    Recipes = new ObservableCollection<Recipe>(RecipeManager.Instance.Recipes.Where(x => x.CreatedBy?.Username == Username));
+                }
+            };
+       }
 
 
         private void RemoveRecipe()
@@ -96,7 +169,6 @@ namespace CookMaster.ViewModels
             Application.Current.MainWindow = details;
 
 
-
         }
 
         private void ShowInfo()
@@ -116,10 +188,38 @@ namespace CookMaster.ViewModels
             mainWindow.Show();
             window?.Close();
         }
+        private void ApplyFilter()
+        {
+            var query = Recipes.AsEnumerable();
 
-        
+            if (!string.IsNullOrWhiteSpace(FilterText))
+            {
+                var ft = FilterText.Trim().ToLowerInvariant();
+                query = query.Where(r => (r.Title ?? string.Empty).ToLowerInvariant().Contains(ft) || (r.Ingredients ?? string.Empty).ToLowerInvariant().Contains(ft));
+            }
 
+            if (!string.IsNullOrWhiteSpace(SelectedCategory))
+            {
+                query = query.Where(r => string.Equals(r.Category, SelectedCategory, StringComparison.OrdinalIgnoreCase));
+            }
 
+            if (SortByDateDesc)
+                query = query.OrderByDescending(r => r.DateCreated);
+            else
+                query = query.OrderBy(r => r.DateCreated);
+
+            FilteredRecipes = new ObservableCollection<Recipe>(query);
+            // Notify that AvailableCategories might have changed
+            OnPropertyChanged(nameof(AvailableCategories));
+        }
+
+        private void ClearFilter()
+        {
+            FilterText = string.Empty;
+            SelectedCategory = string.Empty;
+            SortByDateDesc = true;
+            ApplyFilter();
+        }
 
     }
 }

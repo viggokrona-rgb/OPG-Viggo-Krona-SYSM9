@@ -11,6 +11,8 @@ namespace CookMaster.Managers
         Task<bool> UpdateUserAsync(string originalUsername, User updatedUser);
 
         Task<User?> GetUserByUsernameAsync(string username);
+
+        Task<bool> IsUsernameTakenAsync(string username);
         Task<bool> ValidateSecurityAnswerAsync(string username, string answer);
         Task<bool> ResetPasswordAsync(string username, string newPassword);
     }
@@ -76,6 +78,13 @@ namespace CookMaster.Managers
             existing.Country = updatedUser.Country;
 
             return Task.FromResult(true);
+        }
+
+        public Task<bool> IsUsernameTakenAsync(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username)) return Task.FromResult(false);
+            var taken = Users.Any(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
+            return Task.FromResult(taken);
         }
 
         public Task<User?> GetUserByUsernameAsync(string username)

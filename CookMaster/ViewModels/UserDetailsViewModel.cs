@@ -103,15 +103,15 @@ namespace CookMaster.ViewModels
                 return false;
             }
 
-            // If username changed, check availability
-            //  if (!string.Equals(CurrentUsername, NewUsername, System.StringComparison.OrdinalIgnoreCase))
+               
+              if (!string.Equals(CurrentUsername, NewUsername, System.StringComparison.OrdinalIgnoreCase))
             {
-                //   var takenTask = _authService.IsUsernameTakenAsync(NewUsername);
-                //  takenTask.Wait();
-                //  if (takenTask.Result)
+                   var takenTask = UserManager.Instance.IsUsernameTakenAsync(NewUsername);
+                 takenTask.Wait();
+                if (takenTask.Result)
                 {
-                    //  validationMessage = "Username is already taken.";
-                    //  return false;
+                    validationMessage = "Username is already taken.";
+                     return false;
                 }
             }
 
@@ -159,9 +159,6 @@ namespace CookMaster.ViewModels
                 Message = "Failed to update user (username may be taken).";
                 return;
             }
-
-            // Update UserManager
-            UserManager.Instance.CurrentUser = updated;
 
             // Close window and go back to recipes
             _navigationService.ShowRecipesWindow();

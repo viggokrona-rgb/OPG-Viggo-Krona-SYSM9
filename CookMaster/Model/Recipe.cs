@@ -18,7 +18,6 @@ namespace CookMaster.Model
         public string? Time { get; set; }
 
         public DateTime DateCreated { get; set; } = DateTime.Now;
-        public string? Type { get; set; }
 
         public User CreatedBy { get; set; }
 

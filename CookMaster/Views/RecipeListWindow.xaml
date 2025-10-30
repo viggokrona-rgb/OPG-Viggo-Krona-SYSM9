@@ -13,6 +13,7 @@
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -20,12 +21,31 @@
         <DockPanel Grid.Row="0" Margin="0,0,0,10">
             <TextBlock Text="Receptlista" FontSize="28" FontWeight="Bold" DockPanel.Dock="Left"/>
             <TextBlock Text="{Binding Username}" FontSize="16" DockPanel.Dock="Right" VerticalAlignment="Center"/>
-            
-            
         </DockPanel>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}" DisplayMemberPath="Title"/>
-       
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+
+        <!-- Filter panel -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10" HorizontalAlignment="Left">
+            <TextBox Width="240" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox Width="180" ItemsSource="{Binding AvailableCategories}" SelectedItem="{Binding SelectedCategory}" />
+            <CheckBox Content="Nyast först" IsChecked="{Binding SortByDateDesc}" VerticalAlignment="Center" />
+            <Button Content="Tillämpa" Command="{Binding ApplyFilterCommand}" Padding="8,4" />
+            <Button Content="Rensa" Command="{Binding ClearFilterCommand}" Padding="8,4" />
+        </StackPanel>
+
+        <!-- List with title and date -->
+        <ListBox Grid.Row="2" ItemsSource="{Binding FilteredRecipes}" SelectedItem="{Binding SelectedRecipe}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="4">
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold" />
+                        <TextBlock Text="  —  " Foreground="Gray" />
+                        <TextBlock Text="{Binding DateCreated, StringFormat='{}{0:yyyy-MM-dd}'}" Foreground="Gray" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button Content="Användarinfo" Width="80" Margin="4" Command="{Binding UserCommand}"/>
             <Button Content="Lägg till recept" Width="100" Margin="4" Command="{Binding AddCommand}"/>
             <Button Content="Detaljer" Width="90" Margin="4" Command="{Binding DetailsCommand}"/>
@@ -33,5 +53,6 @@
             <Button Content="Info" Width="70" Margin="4" Command="{Binding InfoCommand}"/>
             <Button Content="Logga ut" Width="100" Margin="4" Command="{Binding SignOutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>
+
     </Grid>
 </Window>

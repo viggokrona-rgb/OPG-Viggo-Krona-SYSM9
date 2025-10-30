@@ -84,7 +84,7 @@ namespace CookMaster.ViewModels
             {
                 if (SetProperty(ref _isEditing, value))
                 {
-                    System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+                    CommandManager.InvalidateRequerySuggested();
                     // Also notify that IsReadOnly changed
                     OnPropertyChanged(nameof(IsReadOnly));
                 }

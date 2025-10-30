@@ -34,6 +34,21 @@ namespace CookMaster.ViewModels
         {
             get => _instructions;
             set => SetProperty(ref _instructions, value);
+
+        }
+
+        private string _category = string.Empty;
+        public string Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
+        }
+
+        private string _time = string.Empty;
+        public string Time
+        {
+            get => _time;
+            set => SetProperty(ref _time, value);
         }
 
         public ICommand SaveCommand  { get; }
