@@ -44,9 +44,8 @@ namespace CookMaster.ViewModels
             CancelCommand = new RelayCommand(_ => _navigationService.ShowSignInWindow());
         }
 
-        public void SetUsername(string username)
-        {
-            _username = username;
+        public void SetUsername()
+        {           
             SendCode();
         }
 
@@ -63,7 +62,7 @@ namespace CookMaster.ViewModels
             Code = string.Empty;
         }
 
-        private  void Verify()
+        private void Verify()
         {
             Message = string.Empty;
             if (string.IsNullOrWhiteSpace(Code) || Code.Length != 6)
@@ -77,9 +76,7 @@ namespace CookMaster.ViewModels
                 Message = "Invalid code.";
                 return;
             }
-
-            // Successful 2FA -> sign in the user and show recipes
-            UserManager.Instance.CurrentUser = new User { Username = _username };
+ 
             _navigationService.ShowRecipesWindow();
         }
     }

@@ -17,7 +17,7 @@ namespace CookMaster.Services
         void ShowResetPasswordWindow(string? username = null);
         void ShowForgotPasswordWindow();
 
-        void ShowTwoFactorWindow(string username);
+        void ShowTwoFactorWindow();
 
     }
 
@@ -88,9 +88,9 @@ namespace CookMaster.Services
 
         }
 
-        public void ShowTwoFactorWindow(string username)
+        public void ShowTwoFactorWindow()
         {
-            var win = new TwoFactorWindow(username);
+            var win = new TwoFactorWindow();
             win.Show();
             System.Windows.Application.Current.MainWindow?.Close();
             System.Windows.Application.Current.MainWindow = win;

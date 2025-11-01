@@ -18,13 +18,13 @@ namespace CookMaster.Views
    
     public partial class TwoFactorWindow : Window
     {
-        public TwoFactorWindow(string username)
+        public TwoFactorWindow()
         {
             InitializeComponent();
             
             if (DataContext is TwoFactorViewModel vm)
             {
-                vm.SetUsername(username);
+                vm.SetUsername();
             }
         }
     }

@@ -100,7 +100,7 @@ namespace CookMaster.ViewModels
                 {
 
 
-                    _navigationService.ShowTwoFactorWindow(Username);
+                    _navigationService.ShowTwoFactorWindow();
                 }
                 else
                 {
