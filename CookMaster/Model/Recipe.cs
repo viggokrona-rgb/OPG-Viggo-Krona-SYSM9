@@ -8,9 +8,9 @@ namespace CookMaster.Model
 {
     public class Recipe
     {
-        public string Title { get; set; }
-        public string Ingredients { get; set; }
-        public string Instructions { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Ingredients { get; set; } = string.Empty;
+        public string Instructions { get; set; } = string.Empty;
 
        
 
@@ -19,7 +19,7 @@ namespace CookMaster.Model
 
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        public User CreatedBy { get; set; }
+        public User CreatedBy { get; set; } = null!;
 
 
 

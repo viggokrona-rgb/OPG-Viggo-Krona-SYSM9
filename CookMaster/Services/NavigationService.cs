@@ -16,7 +16,9 @@ namespace CookMaster.Services
 
         void ShowResetPasswordWindow(string? username = null);
         void ShowForgotPasswordWindow();
-       
+
+        void ShowTwoFactorWindow(string username);
+
     }
 
     public class NavigationService : INavigationService
@@ -86,7 +88,13 @@ namespace CookMaster.Services
 
         }
 
-       
+        public void ShowTwoFactorWindow(string username)
+        {
+            var win = new TwoFactorWindow(username);
+            win.Show();
+            System.Windows.Application.Current.MainWindow?.Close();
+            System.Windows.Application.Current.MainWindow = win;
+        }
     }
 
 }

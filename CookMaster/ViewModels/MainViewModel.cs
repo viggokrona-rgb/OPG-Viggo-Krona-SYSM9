@@ -98,10 +98,9 @@ namespace CookMaster.ViewModels
 
                 if (ok)
                 {
-                  
 
-                    _navigationService.ShowRecipesWindow();
-                    
+
+                    _navigationService.ShowTwoFactorWindow(Username);
                 }
                 else
                 {
