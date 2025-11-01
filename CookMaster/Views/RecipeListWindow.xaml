@@ -52,7 +52,7 @@
             <Button Content="Ta bort" Width="90" Margin="4" Command="{Binding RemoveCommand}"/>
             <Button Content="Info" Width="70" Margin="4" Command="{Binding InfoCommand}"/>
             <Button Content="Logga ut" Width="100" Margin="4" Command="{Binding SignOutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-            <Button Content="Copy" Width="70" Margin="4" Command="{Binding CopyRecipeCommand}" CommandParameter="{Binding}"/>
+            <Button Content="Kopiera" Width="70" Margin="4" Command="{Binding CopyRecipeCommand}" CommandParameter="{Binding}"/>
         </StackPanel>
 
        

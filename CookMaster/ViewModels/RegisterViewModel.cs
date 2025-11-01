@@ -39,8 +39,18 @@ namespace CookMaster.ViewModels
         {
             get => _message;
             set => SetProperty(ref _message, value);
+
         }
 
+        private string _confirmPassword = string.Empty;
+        public string ConfirmPassword
+        {
+            get => _confirmPassword;
+            set => SetProperty(ref _confirmPassword, value);
+            
+                
+            
+        }
         public ICommand RegisterCommand { get; }
         public ICommand CancelCommand { get; }
 
@@ -54,15 +64,52 @@ namespace CookMaster.ViewModels
 
         private bool CanRegister()
         {
-            return !string.IsNullOrWhiteSpace(Username)
-                && !string.IsNullOrWhiteSpace(Password);
+            return true;
+        }
+
+        private bool IsPasswordComplex(string pwd)
+        {
+            if (pwd.Length < 8) return false;
+            bool hasDigit = false;
+            bool hasSpecial = false;
+            foreach (var c in pwd)
+            {
+                if (char.IsDigit(c)) hasDigit = true;
+                if (!char.IsLetterOrDigit(c)) hasSpecial = true;
+            }
+            return hasDigit && hasSpecial;
         }
 
         private async Task RegisterAsync()
         {
             Message = string.Empty;
 
-            
+            if (Username.Length < 3)
+            {
+                Message = "Username must be at least 3 characters.";
+                return;
+            }
+
+            if (!IsPasswordComplex(Password))
+            {
+                Message = "Password must be at least 8 characters and include at least one digit and one special character.";
+                return;
+            }
+
+            if (!string.Equals(Password, ConfirmPassword))
+            {
+                Message = "Passwords do not match.";
+                return;
+            }
+
+            var taken = await UserManager.Instance.IsUsernameTakenAsync(Username);
+            if (taken)
+            {
+                Message = "Username is already taken.";
+                return;
+            }
+
+
             var user = new User { Username = Username, Password = Password, Country = Country };
 
             // Store user in UserManager temporarily and navigate back to sign-in

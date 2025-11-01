@@ -19,6 +19,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
 
+            
+
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="Skapa nytt konto" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,6"/>
@@ -35,6 +37,11 @@
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Vertical" Margin="100,8,100,0">
+            <TextBlock Text="Confirm Password" Margin="4"/>
+            <PasswordBox local:PasswordHelper.BindPassword="True" local:PasswordHelper.BoundPassword="{Binding ConfirmPassword, Mode=TwoWay}" MinWidth="240"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Orientation="Vertical" Margin="100,8,100,0">
             <TextBlock Text="Land" Margin="4"/>
             <ComboBox Name="CountryComboBox" Height="30">
                 <ComboBoxItem Content="- Välj Land -" IsSelected="True"/>
@@ -50,9 +57,13 @@
             </ComboBox>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,16,0,0" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,16,0,0" HorizontalAlignment="Center">
             <Button Content="Registrera" Command="{Binding RegisterCommand}" Padding="16,6"/>
             <Button Content="Tillbaka" Command="{Binding CancelCommand}" Padding="12,6" Margin="8,0,0,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="6" Orientation="Vertical" Margin="0,12,0,0">
+            <TextBlock Text="{Binding Message}" Foreground="Tomato"/>
         </StackPanel>
 
 
