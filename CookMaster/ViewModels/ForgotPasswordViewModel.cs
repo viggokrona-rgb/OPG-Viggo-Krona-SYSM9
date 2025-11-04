@@ -40,6 +40,7 @@ namespace CookMaster.ViewModels
 
         private bool CanSubmit() => !string.IsNullOrWhiteSpace(Username);
 
+        // Submit the username to check if it exists
         private async Task SubmitAsync()
         {
             Message = string.Empty;

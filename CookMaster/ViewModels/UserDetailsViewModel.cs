@@ -29,7 +29,7 @@ namespace CookMaster.ViewModels
 
             NewUsername = CurrentUsername;
             SelectedCountry = CurrentCountry;
-
+            // Predefined list of countries
             AvailableCountries = new ObservableCollection<string>(new[] { "Sweden", "USA", "UK", "Germany", "France", "Norway" });
         }
 
@@ -92,6 +92,7 @@ namespace CookMaster.ViewModels
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
 
+        // Validate user inputs
         private bool ValidateInputs(out string validationMessage)
         {
             validationMessage = string.Empty;
@@ -103,8 +104,8 @@ namespace CookMaster.ViewModels
                 return false;
             }
 
-               
-              if (!string.Equals(CurrentUsername, NewUsername, System.StringComparison.OrdinalIgnoreCase))
+            // Check if username is taken (only if changed)
+            if (!string.Equals(CurrentUsername, NewUsername, System.StringComparison.OrdinalIgnoreCase))
             {
                    var takenTask = UserManager.Instance.IsUsernameTakenAsync(NewUsername);
                  takenTask.Wait();
@@ -134,6 +135,7 @@ namespace CookMaster.ViewModels
             return true;
         }
 
+        // Save the updated user details
         private async Task SaveAsync()
         {
             Message = string.Empty;

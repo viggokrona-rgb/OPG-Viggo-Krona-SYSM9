@@ -87,6 +87,7 @@ namespace CookMaster.ViewModels
             IsResetStepVisible = false;
         }
 
+        // Lookup the user and load the security question
         private async Task LookupAsync()
         {
             Message = string.Empty;
@@ -104,6 +105,7 @@ namespace CookMaster.ViewModels
             IsSecurityStepVisible = true;
         }
 
+        // Validate the security answer
         private async Task ValidateAnswerAsync()
         {
             Message = string.Empty;
@@ -117,6 +119,7 @@ namespace CookMaster.ViewModels
             IsResetStepVisible = true;
         }
 
+        // Reset the password
         private async Task ResetPasswordAsync()
         {
             Message = string.Empty;

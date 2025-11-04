@@ -42,6 +42,7 @@ namespace CookMaster.Managers
 
         public List<User> Users { get; set; }
 
+        // Simple sign-in method
         public Task<bool> SignInAsync(string username, string password)
         {
             var user = Users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase)
@@ -52,6 +53,8 @@ namespace CookMaster.Managers
             return Task.FromResult(user != null);
         }
 
+
+        // Handle forgot password by checking if user exists
         public Task<bool> ForgotPasswordAsync(string username)
         {
             // In a real app you would send a reset link or similar
@@ -59,6 +62,8 @@ namespace CookMaster.Managers
             return Task.FromResult(exists);
         }
 
+
+        // Update user details
         public Task<bool> UpdateUserAsync(string originalUsername, User updatedUser)
         {
             if (updatedUser == null || string.IsNullOrWhiteSpace(originalUsername)) return Task.FromResult(false);
@@ -80,6 +85,7 @@ namespace CookMaster.Managers
             return Task.FromResult(true);
         }
 
+        // Check if username is already taken
         public Task<bool> IsUsernameTakenAsync(string username)
         {
             if (string.IsNullOrWhiteSpace(username)) return Task.FromResult(false);
@@ -87,11 +93,14 @@ namespace CookMaster.Managers
             return Task.FromResult(taken);
         }
 
+        // Get user by username
         public Task<User?> GetUserByUsernameAsync(string username)
         {
             var user = Users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
             return Task.FromResult(user);
         }
+
+        // Validate security answer
         public Task<bool> ValidateSecurityAnswerAsync(string username, string answer)
         {
             var user = Users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
@@ -100,6 +109,7 @@ namespace CookMaster.Managers
             return Task.FromResult(ok);
         }
 
+        // Reset password
         public Task<bool> ResetPasswordAsync(string username, string newPassword)
         {
             var user = Users.FirstOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));

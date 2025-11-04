@@ -82,11 +82,13 @@ namespace CookMaster.ViewModels
 #endif
         }
 
+        // Can execute sign-in
         private bool CanSignIn()
         {
             return !IsBusy && !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
         }
 
+        // Sign-in logic
         private async Task SignInAsync()
         {
             try

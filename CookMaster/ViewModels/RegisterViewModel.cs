@@ -62,11 +62,13 @@ namespace CookMaster.ViewModels
             CancelCommand = new RelayCommand(_ => _navigationService.ShowSignInWindow());
         }
 
+        // Always enable registration for this simple example
         private bool CanRegister()
         {
             return true;
         }
 
+        // Simple password complexity check
         private bool IsPasswordComplex(string pwd)
         {
             if (pwd.Length < 8) return false;
@@ -80,6 +82,7 @@ namespace CookMaster.ViewModels
             return hasDigit && hasSpecial;
         }
 
+        // Perform registration
         private async Task RegisterAsync()
         {
             Message = string.Empty;
@@ -114,7 +117,7 @@ namespace CookMaster.ViewModels
 
             // Store user in UserManager temporarily and navigate back to sign-in
             UserManager.Instance.Users.Add(user);
-
+            // In a real app, you would persist the user to a database
             _navigationService.ShowSignInWindow();
         }
     }

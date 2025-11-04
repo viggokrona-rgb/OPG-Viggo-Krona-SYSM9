@@ -56,6 +56,7 @@ namespace CookMaster.ViewModels
 
         public AddRecipeViewModel() : this(null) { }
 
+        // Constructor with optional template for copying
         public AddRecipeViewModel(Recipe? template)
         {
             _navigationService = new NavigationService();
@@ -70,10 +71,11 @@ namespace CookMaster.ViewModels
                 Time = template.Time ?? string.Empty;
             }
         }
+        // Simple validation: all fields must be filled
         private bool CanSave() => !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Ingredients) && !string.IsNullOrWhiteSpace(Instructions);
 
         private void Save()
-        {
+        {   // Create and add the new recipe
             if (UserManager.Instance.CurrentUser != null)
             {
                 var recipe = new Recipe
@@ -86,9 +88,9 @@ namespace CookMaster.ViewModels
 
                 RecipeManager.Instance.Recipes.Add(recipe);
             }
-            
 
-            
+
+            // After saving, navigate back to recipes list
             _navigationService.ShowRecipesWindow();
         }
     }

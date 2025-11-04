@@ -62,6 +62,7 @@ namespace CookMaster.ViewModels
             Code = string.Empty;
         }
 
+        // Verify the entered code
         private void Verify()
         {
             Message = string.Empty;
@@ -76,7 +77,8 @@ namespace CookMaster.ViewModels
                 Message = "Invalid code.";
                 return;
             }
- 
+
+            // Successful verification, navigate to recipes
             _navigationService.ShowRecipesWindow();
         }
     }
