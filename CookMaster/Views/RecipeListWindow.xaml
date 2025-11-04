@@ -20,7 +20,7 @@
 
         <DockPanel Grid.Row="0" Margin="0,0,0,10">
             <TextBlock Text="Receptlista" FontSize="28" FontWeight="Bold" DockPanel.Dock="Left"/>
-            <TextBlock Text="{Binding Username}" FontSize="16" DockPanel.Dock="Right" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Username}" FontSize="16"  DockPanel.Dock="Right" VerticalAlignment="Stretch"/>
         </DockPanel>
 
         <!-- Filter panel -->
